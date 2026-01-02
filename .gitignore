@@ -1,0 +1,124 @@
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# Keep specific .idea files if needed for team collaboration
+# Uncomment these if you want to share certain IDE settings
+# !.idea/codeStyles/
+# !.idea/inspectionProfiles/
+# !.idea/runConfigurations/
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.directory
+.Trash-*
+
+# Log files
+*.log
+logs/
+
+# Package Files
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Backup files
+*~
+*.swp
+*.swo
+*.bak
+*.tmp
+*.temp
+
+# Test output
+test-output/
+test-results/
+
+# Plugin-specific
+# IntelliJ Platform SDK sandbox
+.sandbox/
+
+# Plugin verification reports
+build/reports/
+
+# Compiled plugin distributions
+build/distributions/
+
+# Gradle daemon
+.gradle/daemon/
+
+# Gradle configuration cache
+.gradle/configuration-cache/
+
+# Local environment variables
+.env
+.env.local
+
+# IDE-specific plugin data
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/usage.statistics.xml
+.idea/dictionaries
+.idea/shelf
+.idea/sonarlint/
+.idea/copilot-plugin/
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+.idea/**/uiDesigner.xml
+.idea/**/dbnavigator.xml
+.idea/httpRequests/
+.idea/caches/
+
+# Gradle build cache
+.gradle/caches/
+.gradle/wrapper/dists/
+
+# JVM crash logs
+hs_err_pid*
+replay_pid*
+
+# Generated files
+generated/
+gen/
+
+# Documentation build artifacts (keep source docs)
+docs-v1/.DS_Store
+/docs-v1/*
+
+/gradle/wrapper/gradle-wrapper.properties
+/src/main/resources/META-INF/plugin.xml
