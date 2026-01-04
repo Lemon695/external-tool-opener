@@ -79,13 +79,15 @@
 
 ### 右键菜单
 
-![img-509A2F1E-E93C-11F0-90C3-F2A0C02292D6.png](docs/img/img-509A2F1E-E93C-11F0-90C3-F2A0C02292D6.png)
+![右键菜单](./docs/img/img-509A2F1E-E93C-11F0-90C3-F2A0C02292D6.png)
 
 ### 自动检测对话框
-![img-509A2F1E-E93C-11F0-90C3-F2A0C02292D7.png](docs/img/img-509A2F1E-E93C-11F0-90C3-F2A0C02292D7.png)
+
+![自动检测对话框](./docs/img/img-509A2F1E-E93C-11F0-90C3-F2A0C02292D7.png)
 
 ### 设置面板
-![img-509A2F1E-E93C-11F0-90C3-F2A0C02292D8.png](docs/img/img-509A2F1E-E93C-11F0-90C3-F2A0C02292D8.png)
+
+![设置面板](./docs/img/img-509A2F1E-E93C-11F0-90C3-F2A0C02292D8.png)
 
 ## 🔧 配置说明
 

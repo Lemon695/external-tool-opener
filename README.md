@@ -78,13 +78,13 @@ The plugin includes detection for 10 popular tools:
 ## 🎨 Screenshots
 
 ### Context Menu
-![Context Menu](docs/screenshots/context-menu.png)
+![Context Menu](./docs/img/img-509A2F1E-E93C-11F0-90C3-F2A0C02292D6.png)
 
 ### Auto-Detection Dialog
-![Auto Detection](docs/screenshots/auto-detection.png)
+![Auto Detection](./docs/img/img-509A2F1E-E93C-11F0-90C3-F2A0C02292D7.png)
 
 ### Settings Panel
-![Settings](docs/screenshots/settings.png)
+![Settings](./docs/img/img-509A2F1E-E93C-11F0-90C3-F2A0C02292D8.png)
 
 ## 🔧 Configuration
 
