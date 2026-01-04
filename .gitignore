@@ -121,4 +121,4 @@ docs-v1/.DS_Store
 /docs-v1/*
 
 /gradle/wrapper/gradle-wrapper.properties
-/src/main/resources/META-INF/plugin.xml
+/.vscode/settings.json

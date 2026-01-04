@@ -1,0 +1,39 @@
+<idea-plugin>
+    <id>com.lemon.externaltool</id>
+    <name>External Tool Opener</name>
+    <vendor email="your.email@example.com" url="https://github.com/yourusername">Lemon</vendor>
+
+    <description><![CDATA[
+    <h2>Open Files with External Tools</h2>
+    <p>A powerful plugin that allows you to open any file in your project with configured external applications.</p>
+    
+    <h3>Features:</h3>
+    <ul>
+        <li><b>Right-click Menu Integration</b> - Quick access to external tools from context menu</li>
+        <li><b>Multiple Tool Support</b> - Configure unlimited external applications</li>
+        <li><b>File Type Association</b> - Link specific file extensions to preferred tools</li>
+        <li><b>Global Configuration</b> - Configure once, use in all projects</li>
+    </ul>
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <!-- Compatible with IntelliJ IDEA 2020.1 and all future versions -->
+    <idea-version since-build="201"/>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Moved to Global Settings -->
+        <applicationConfigurable parentId="tools" instance="com.lemon.externaltool.config.ExternalToolConfigurable" id="com.lemon.externaltool.config" displayName="External Tool Opener"/>
+
+        <!-- Service registered via annotation -->
+        <applicationService serviceImplementation="com.lemon.externaltool.service.ExternalToolService"/>
+    </extensions>
+
+    <actions>
+        <group id="ExternalToolOpener.OpenWithGroup" class="com.lemon.externaltool.action.OpenWithActionGroup" text="Open With..." description="Open file with external tool" popup="true">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="after" relative-to-action="RevealIn"/>
+            <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="RevealIn"/>
+            <add-to-group group-id="EditorTabPopupMenu" anchor="after" relative-to-action="RevealIn"/>
+        </group>
+    </actions>
+</idea-plugin>

@@ -1,0 +1,129 @@
+version: "1.0"
+tools:
+  - name: "Visual Studio Code"
+    id: "vscode"
+    category: "Editor"
+    platforms:
+      windows:
+        - "C:\\Program Files\\Microsoft VS Code\\Code.exe"
+        - "C:\\Users\\{user}\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe"
+      mac:
+        - "/Applications/Visual Studio Code.app"
+        - "/usr/local/bin/code"
+      linux:
+        - "/usr/bin/code"
+        - "/snap/bin/code"
+    extensions:
+      - ".js"
+      - ".ts"
+      - ".json"
+      - ".md"
+      - ".jsx"
+      - ".tsx"
+      - ".vue"
+      - ".css"
+      - ".html"
+    priority: 10
+
+  - name: "Sublime Text"
+    id: "sublime"
+    category: "Editor"
+    platforms:
+      windows:
+        - "C:\\Program Files\\Sublime Text\\sublime_text.exe"
+        - "C:\\Program Files\\Sublime Text 3\\sublime_text.exe"
+      mac:
+        - "/Applications/Sublime Text.app"
+      linux:
+        - "/usr/bin/subl"
+    extensions: [] # All files
+    priority: 8
+
+  - name: "Typora"
+    id: "typora"
+    category: "Markdown Editor"
+    platforms:
+      windows:
+        - "C:\\Program Files\\Typora\\Typora.exe"
+      mac:
+        - "/Applications/Typora.app"
+      linux:
+        - "/usr/bin/typora"
+    extensions:
+      - ".md"
+      - ".markdown"
+    priority: 9
+
+  - name: "Trae"
+    id: "trae"
+    category: "Markdown Editor"
+    platforms:
+      mac:
+        - "/Applications/Trae.app"
+    extensions:
+      - ".md"
+      - ".markdown"
+    priority: 9
+
+  - name: "Kiro"
+    id: "kiro"
+    category: "Markdown Editor"
+    platforms:
+      mac:
+        - "/Applications/Kiro.app"
+    extensions:
+      - ".md"
+      - ".markdown"
+    priority: 9
+
+  - name: "IntelliJ IDEA"
+    id: "idea"
+    category: "IDE"
+    platforms:
+      windows:
+        - "C:\\Program Files\\JetBrains\\IntelliJ IDEA\\bin\\idea64.exe"
+      mac:
+        - "/Applications/IntelliJ IDEA.app"
+      linux:
+        - "/usr/bin/idea"
+    extensions:
+      - ".java"
+      - ".kt"
+      - ".xml"
+      - ".gradle"
+    priority: 7
+
+  - name: "Notepad++"
+    id: "notepadpp"
+    category: "Editor"
+    platforms:
+      windows:
+        - "C:\\Program Files\\Notepad++\\notepad++.exe"
+        - "C:\\Program Files (x86)\\Notepad++\\notepad++.exe"
+    extensions: []
+    priority: 6
+
+  - name: "Atom"
+    id: "atom"
+    category: "Editor"
+    platforms:
+      windows:
+        - "C:\\Users\\{user}\\AppData\\Local\\atom\\atom.exe"
+      mac:
+        - "/Applications/Atom.app"
+      linux:
+        - "/usr/bin/atom"
+    extensions: []
+    priority: 5
+
+  - name: "Vim"
+    id: "vim"
+    category: "Editor"
+    platforms:
+      mac:
+        - "/usr/bin/vim"
+        - "/Applications/MacVim.app"
+      linux:
+        - "/usr/bin/vim"
+    extensions: []
+    priority: 4

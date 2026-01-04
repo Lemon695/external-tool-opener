@@ -6,7 +6,7 @@ import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.lemon.externaltool.model.ExternalTool;
-import com.lemon.externaltool.service.ExternalToolService;
+import com.lemon.externaltool.service.ToolExecutionService;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -14,39 +14,33 @@ import org.jetbrains.annotations.NotNull;
  * 单个工具的菜单项动作
  */
 public class OpenWithSubAction extends AnAction {
-    
+
     private final ExternalTool tool;
-    
+
     public OpenWithSubAction(@NotNull ExternalTool tool) {
         super(tool.getName());
         this.tool = tool;
-        
+
         // 如果是默认工具，添加标记
         if (tool.isDefault()) {
             getTemplatePresentation().setText(tool.getName() + " (default)");
         }
     }
-    
+
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
         Project project = e.getProject();
         VirtualFile file = e.getData(CommonDataKeys.VIRTUAL_FILE);
-        
-        if (project == null || file == null) {
-            return;
+
+        if (project != null && file != null) {
+            // Use the new Execution Service
+            ToolExecutionService.getInstance(project).execute(tool, file.getPath());
         }
-        
-        // 获取Service并执行打开操作
-        ExternalToolService service = ExternalToolService.getInstance(project);
-        service.openFileWith(file, tool);
     }
-    
+
     @Override
     public void update(@NotNull AnActionEvent e) {
-        Project project = e.getProject();
-        VirtualFile file = e.getData(CommonDataKeys.VIRTUAL_FILE);
-        
-        boolean enabled = project != null && file != null && !file.isDirectory();
-        e.getPresentation().setEnabled(enabled);
+        // Always enable/visible if created. Logic was handled in Group.
+        e.getPresentation().setEnabledAndVisible(true);
     }
 }

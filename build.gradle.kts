@@ -4,13 +4,14 @@ plugins {
 }
 
 group = "com.lemon.externaltool"
-version = "1.0.0"
+version = "1.1.4"
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
+    implementation("org.yaml:snakeyaml:2.0")
     testImplementation("junit:junit:4.13.2")
 }
 
@@ -33,8 +34,8 @@ tasks {
     }
 
     patchPluginXml {
-        sinceBuild.set("232")
-        untilBuild.set("252.*")
+        sinceBuild.set("201")
+        untilBuild.set("") // Empty = no upper limit
         
         changeNotes.set("""
             <h3>Version 1.0.0</h3>
