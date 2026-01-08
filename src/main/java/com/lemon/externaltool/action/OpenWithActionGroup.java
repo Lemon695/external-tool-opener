@@ -164,7 +164,8 @@ public class OpenWithActionGroup extends ActionGroup {
 
             // 8. SELECTED_ITEMS (Project View Nodes) - THIS IS THE KEY FOR PROJECT VIEW!
             // In ProjectViewPopup, IntelliJ uses SELECTED_ITEMS with PsiFileNode objects
-            Object[] selectedItems = e.getData(PlatformCoreDataKeys.SELECTED_ITEMS);
+            // Use PlatformDataKeys for compatibility (available in all versions 2020.1+)
+            Object[] selectedItems = e.getData(PlatformDataKeys.SELECTED_ITEMS);
             VirtualFile selectedItemFile = null;
             if (selectedItems != null && selectedItems.length > 0) {
                 Object firstItem = selectedItems[0];
@@ -188,7 +189,8 @@ public class OpenWithActionGroup extends ActionGroup {
             // 9. NAVIGATABLE_ARRAY (Alternative approach)
             // This is crucial for ProjectViewPopup context where other strategies often
             // fail
-            com.intellij.pom.Navigatable[] navigatables = e.getData(PlatformCoreDataKeys.NAVIGATABLE_ARRAY);
+            // Use PlatformDataKeys for compatibility (available in all versions 2020.1+)
+            com.intellij.pom.Navigatable[] navigatables = e.getData(PlatformDataKeys.NAVIGATABLE_ARRAY);
             VirtualFile navigatableFile = null;
             if (navigatables != null && navigatables.length > 0) {
                 com.intellij.pom.Navigatable nav = navigatables[0];
@@ -257,7 +259,20 @@ public class OpenWithActionGroup extends ActionGroup {
         boolean visible = project != null;
         e.getPresentation().setVisible(visible);
         e.getPresentation().setEnabled(visible);
-        e.getPresentation().setDisableGroupIfEmpty(false);
+
+        // Use reflection to call setDisableGroupIfEmpty for compatibility with 2022.1
+        // and below
+        // This method was added in 2022.2, so we need to handle older versions
+        // gracefully
+        try {
+            java.lang.reflect.Method method = Presentation.class.getMethod("setDisableGroupIfEmpty", boolean.class);
+            method.invoke(e.getPresentation(), false);
+        } catch (NoSuchMethodException ex) {
+            // Method doesn't exist in older versions, silently ignore
+        } catch (Exception ex) {
+            // Log other reflection errors but don't fail
+            LOG.warn("Failed to call setDisableGroupIfEmpty", ex);
+        }
     }
 
     private static class ConfigureToolsAction extends AnAction {

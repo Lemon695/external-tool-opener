@@ -1,7 +1,10 @@
 package com.lemon.externaltool.ui;
 
+import com.intellij.openapi.fileChooser.FileChooser;
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.ToolbarDecorator;
 import com.intellij.ui.components.JBList;
 import com.intellij.ui.components.JBScrollPane;
@@ -94,16 +97,16 @@ public class ToolConfigPanel {
                 .setMoveDownAction(button -> moveToolDown());
 
         panel.add(decorator.createPanel(), BorderLayout.CENTER);
-        
+
         // Add Detect Tools button at the bottom
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         detectButton = new JButton("Detect Tools");
         detectButton.setToolTipText("Automatically detect external tools on your system");
         detectButton.addActionListener(e -> detectTools());
         buttonPanel.add(detectButton);
-        
+
         panel.add(buttonPanel, BorderLayout.SOUTH);
-        
+
         return panel;
     }
 
@@ -432,18 +435,32 @@ public class ToolConfigPanel {
     }
 
     private void setupFileChooser(TextFieldWithBrowseButton field) {
-        FileChooserDescriptor descriptor = new FileChooserDescriptor(true, true, false, false, false, false) {
-            @Override
-            public boolean isFileSelectable(com.intellij.openapi.vfs.VirtualFile file) {
-                // Allow matching files AND directories if they are .app
-                if (file.isDirectory()) {
-                    return file.getName().endsWith(".app");
-                }
-                return true;
+        // Use new API to avoid deprecated addBrowseFolderListener and non-extendable
+        // isFileSelectable
+        FileChooserDescriptor descriptor = new FileChooserDescriptor(true, true, false, false, false, false)
+                .withFileFilter(file -> {
+                    // Allow matching files AND directories if they are .app
+                    if (file.isDirectory()) {
+                        return file.getName().endsWith(".app");
+                    }
+                    return true;
+                });
+        descriptor.setTitle("Select Executable");
+        descriptor.setDescription("Choose tool executable or macOS .app bundle");
+
+        field.addActionListener(e -> {
+            Project project = null; // Can be null for file chooser
+            VirtualFile initialFile = null;
+            String currentPath = field.getText();
+            if (currentPath != null && !currentPath.trim().isEmpty()) {
+                initialFile = com.intellij.openapi.vfs.LocalFileSystem.getInstance().findFileByPath(currentPath);
             }
-        };
-        field.addBrowseFolderListener("Select Executable", "Choose tool executable or macOS .app bundle", null,
-                descriptor);
+
+            VirtualFile selectedFile = FileChooser.chooseFile(descriptor, project, initialFile);
+            if (selectedFile != null) {
+                field.setText(selectedFile.getPath());
+            }
+        });
     }
 
     private static class ToolListCellRenderer extends DefaultListCellRenderer {
@@ -477,7 +494,8 @@ public class ToolConfigPanel {
                 List<com.lemon.externaltool.model.DetectedTool> newTools = new ArrayList<>();
                 List<com.lemon.externaltool.model.DetectedTool> updatedTools = new ArrayList<>();
                 for (com.lemon.externaltool.model.DetectedTool tool : detected) {
-                    if (!tool.isAvailable()) continue;
+                    if (!tool.isAvailable())
+                        continue;
                     boolean exists = workingTools.stream().anyMatch(t -> t.getName().equalsIgnoreCase(tool.getName()));
                     if (exists) {
                         updatedTools.add(tool);
@@ -486,7 +504,9 @@ public class ToolConfigPanel {
                     }
                 }
                 if (newTools.isEmpty() && updatedTools.isEmpty()) {
-                    JOptionPane.showMessageDialog(mainPanel, "No new tools detected. All available tools are already configured.", "Tool Detection", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(mainPanel,
+                            "No new tools detected. All available tools are already configured.", "Tool Detection",
+                            JOptionPane.INFORMATION_MESSAGE);
                     return;
                 }
                 for (com.lemon.externaltool.model.DetectedTool updated : updatedTools) {
@@ -509,17 +529,25 @@ public class ToolConfigPanel {
                             toolList.setSelectedIndex(workingTools.size() - 1);
                             isModified = true;
                         }
-                        String updateMsg = updatedTools.isEmpty() ? "" : String.format(" Updated %d existing tool%s.", updatedTools.size(), updatedTools.size() == 1 ? "" : "s");
-                        String message = String.format("Successfully added %d tool%s.%s", selectedTools.size(), selectedTools.size() == 1 ? "" : "s", updateMsg);
-                        JOptionPane.showMessageDialog(mainPanel, message, "Tool Detection Complete", JOptionPane.INFORMATION_MESSAGE);
+                        String updateMsg = updatedTools.isEmpty() ? ""
+                                : String.format(" Updated %d existing tool%s.", updatedTools.size(),
+                                        updatedTools.size() == 1 ? "" : "s");
+                        String message = String.format("Successfully added %d tool%s.%s", selectedTools.size(),
+                                selectedTools.size() == 1 ? "" : "s", updateMsg);
+                        JOptionPane.showMessageDialog(mainPanel, message, "Tool Detection Complete",
+                                JOptionPane.INFORMATION_MESSAGE);
                     }
                 } else if (!updatedTools.isEmpty()) {
                     isModified = true;
                     toolList.repaint();
-                    JOptionPane.showMessageDialog(mainPanel, String.format("Updated %d existing tool%s.", updatedTools.size(), updatedTools.size() == 1 ? "" : "s"), "Tool Detection Complete", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(mainPanel,
+                            String.format("Updated %d existing tool%s.", updatedTools.size(),
+                                    updatedTools.size() == 1 ? "" : "s"),
+                            "Tool Detection Complete", JOptionPane.INFORMATION_MESSAGE);
                 }
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(mainPanel, "Detection failed: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(mainPanel, "Detection failed: " + ex.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
                 ex.printStackTrace();
             } finally {
                 detectButton.setEnabled(true);
@@ -528,4 +556,4 @@ public class ToolConfigPanel {
         });
     }
 
-    }
+}
